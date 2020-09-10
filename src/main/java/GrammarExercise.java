@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -15,10 +17,7 @@ public class GrammarExercise {
         List<String> result = findCommonWordsWithSpace(firstWordList,secondWordList);
         //按要求输出到命令行
         Stream<String> resultStream=result.stream();
-        resultStream.sorted().forEach(e->{
-            e=e.toUpperCase().replace("", " ").trim();
-            System.out.print(e+" ");
-        });
+        resultStream.sorted().forEach(System.out::println);
     }
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
@@ -34,8 +33,25 @@ public class GrammarExercise {
             throw new RuntimeException("input not valid");
         }
 
-        Stream<String> stringStream1=pattern.splitAsStream(firstWordList);
+        String[] a1=firstWordList.split(",");
+        String[] a2=secondWordList.split(",");
 
-        return stringStream1.distinct().sorted().filter(e1->pattern.splitAsStream(secondWordList).anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
+        List<String> l1=new ArrayList<>();
+        List<String> l2=new ArrayList<>();
+
+
+        for (String v1:a1) {
+            v1=v1.toUpperCase().replace(""," ").trim();
+            l1.add(v1);
+        }
+
+        for (String v2:a2) {
+            v2=v2.toUpperCase().replace(""," ").trim();
+            l2.add(v2);
+        }
+
+        Stream<String> stringStream1= l1.stream();
+
+        return stringStream1.distinct().sorted().filter(e1->l2.stream().anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
     }
 }
