@@ -15,13 +15,15 @@ public class GrammarExercise {
         List<String> result = findCommonWordsWithSpace(firstWordList,secondWordList);
         //按要求输出到命令行
         Stream<String> resultStream=result.stream();
-        resultStream.sorted().forEach(System.out::println);
+        resultStream.sorted().forEach(e->{
+            e=e.toUpperCase().replace("", " ").trim();
+            System.out.print(e+" ");
+        });
     }
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
         //在这编写实现代码
         Pattern pattern=Pattern.compile(",");
-        Stream<String> stringStream1=pattern.splitAsStream(firstWordList);
 
         boolean isAllLetter1=pattern.splitAsStream(firstWordList).allMatch(e->e.matches("[a-zA-Z]+"));
         if (!isAllLetter1){
@@ -31,6 +33,8 @@ public class GrammarExercise {
         if (!isAllLetter2){
             throw new RuntimeException("input not valid");
         }
+
+        Stream<String> stringStream1=pattern.splitAsStream(firstWordList);
 
         return stringStream1.distinct().sorted().filter(e1->pattern.splitAsStream(secondWordList).anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
     }

@@ -24,7 +24,6 @@ class GrammarExerciseTest {
         List<String> result = grammarExercise.findCommonWordsWithSpace(first, second);
         //then
         assertIterableEquals(result, expected);
-        System.out.println("执行");
     }
 
     @Test
