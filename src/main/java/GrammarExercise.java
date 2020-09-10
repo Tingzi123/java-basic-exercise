@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
@@ -16,7 +15,7 @@ public class GrammarExercise {
         List<String> result = findCommonWordsWithSpace(firstWordList,secondWordList);
         //按要求输出到命令行
         Stream<String> resultStream=result.stream();
-        resultStream.forEach(System.out::println);
+        resultStream.sorted().forEach(System.out::println);
     }
 
     public static List<String> findCommonWordsWithSpace(String firstWordList, String secondWordList) {
@@ -25,7 +24,8 @@ public class GrammarExercise {
         Stream<String> stringStream1=pattern.splitAsStream(firstWordList);
         Stream<String> stringStream2=pattern.splitAsStream(secondWordList);
 
-        Stream<String> t1=stringStream1;
+
+       /* Stream<String> t1=stringStream1;
         Stream<String> t2=stringStream2;
         boolean isAllLetter1=t1.allMatch(e->e.matches("[a-zA-Z]+"));
         if (!isAllLetter1){
@@ -34,16 +34,12 @@ public class GrammarExercise {
         boolean isAllLetter2=t2.allMatch(e->e.matches("[a-zA-Z]+"));
         if (!isAllLetter2){
             throw new RuntimeException("input not valid");
-        }
+        }*/
 
-        List<String> reList=new ArrayList<>();
-        Stream<String> re=reList.stream();
 
-        stringStream1.distinct().sorted();
-        stringStream2.distinct().sorted().forEach(e1->{
-            Stream.concat(re,stringStream2.filter(e2-> e2.equalsIgnoreCase(e1)));
-        });
-
-        return re.collect(Collectors.toList());
+        /*stringStream2.distinct().sorted().forEach(e2->{
+            stringStream1.distinct().sorted().filter(e1-> e1.equalsIgnoreCase(e2));
+        });*/
+        return stringStream1.distinct().sorted().filter(e1->stringStream2.anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
     }
 }
