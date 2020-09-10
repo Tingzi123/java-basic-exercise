@@ -22,24 +22,16 @@ public class GrammarExercise {
         //在这编写实现代码
         Pattern pattern=Pattern.compile(",");
         Stream<String> stringStream1=pattern.splitAsStream(firstWordList);
-        Stream<String> stringStream2=pattern.splitAsStream(secondWordList);
 
-
-       /* Stream<String> t1=stringStream1;
-        Stream<String> t2=stringStream2;
-        boolean isAllLetter1=t1.allMatch(e->e.matches("[a-zA-Z]+"));
+        boolean isAllLetter1=pattern.splitAsStream(firstWordList).allMatch(e->e.matches("[a-zA-Z]+"));
         if (!isAllLetter1){
             throw new RuntimeException("input not valid");
         }
-        boolean isAllLetter2=t2.allMatch(e->e.matches("[a-zA-Z]+"));
+        boolean isAllLetter2=pattern.splitAsStream(secondWordList).allMatch(e->e.matches("[a-zA-Z]+"));
         if (!isAllLetter2){
             throw new RuntimeException("input not valid");
-        }*/
+        }
 
-
-        /*stringStream2.distinct().sorted().forEach(e2->{
-            stringStream1.distinct().sorted().filter(e1-> e1.equalsIgnoreCase(e2));
-        });*/
-        return stringStream1.distinct().sorted().filter(e1->stringStream2.anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
+        return stringStream1.distinct().sorted().filter(e1->pattern.splitAsStream(secondWordList).anyMatch(e2->e2.equalsIgnoreCase(e1))).collect(Collectors.toList());
     }
 }
